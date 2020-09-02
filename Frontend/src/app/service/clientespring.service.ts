@@ -18,11 +18,28 @@ export class ClientespringService {
     return this.httpc.get<Cliente[]>(this.URL);
   }
 
+  getClientesId(id: number): Observable<Cliente[]> {
+    const url = `${this.URL}/${id}`;
+    return this.httpc.get<Cliente[]>(url);
+  }
+
   addClinetes(nombre:string, apellido:string, direccion:string, telefono:string, email:string)
   {
     let obj ={nombre,apellido,direccion,telefono,email}
     return this.httpc.post(this.URL,obj);
 
+    
+  }
+
+  updateClientes(id: number,nombre:string, apellido:string, direccion:string, telefono:string, email:string){
+    const url = `${this.URL}/${id}`;
+    let obj ={nombre,apellido,direccion,telefono,email}
+    return this.httpc.put<Cliente>(url, obj);
+  }
+
+  deleteClientes(id: number){
+    const url = `${this.URL}/${id}`; 
+    return this.httpc.delete(url);
   }
 
 

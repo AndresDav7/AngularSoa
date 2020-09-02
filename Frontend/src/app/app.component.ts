@@ -11,6 +11,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AppComponent  {
   clientes: Cliente[];
   myFormCliente: FormGroup;
+  cliente: Cliente[];
+  title = 'frontend';
+  idGet: number;
+  titulo: string;
 
   constructor( public servc:ClientespringService){}
 
@@ -51,6 +55,27 @@ export class AppComponent  {
             email: new FormControl('')
           });
         })
+    }
+
+    actualizarDatos(id: number){
+      this.servc.getClientesId(id).subscribe(r=>{
+        this.cliente = r;
+        this.titulo='Actualizar datos de ' + this.cliente['nombre'];
+        this.myFormCliente = new FormGroup({
+          nombre: new FormControl(this.cliente['nombre']),
+          apellido: new FormControl(this.cliente['apellido']),
+          direccion: new FormControl(this.cliente['direccion']),
+          telefono: new FormControl(this.cliente['telefono']),
+          email: new FormControl(this.cliente['email'])
+        });
+        this.idGet=this.cliente['idCliente']
+      })
+    }
+
+    eliminarDatos(id: number){
+      this.servc.deleteClientes(id).subscribe(r =>{
+        this.obtenerClientes()
+      })
     }
 
 
